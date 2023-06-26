@@ -1,0 +1,20 @@
+C:\Users\anhth\AppData\Roaming\r2modmanPlus-local\GTFO\profiles\Vox\BepInEx\plugins\Octomizer\Octomizer.deps.json
+C:\Users\anhth\AppData\Roaming\r2modmanPlus-local\GTFO\profiles\Vox\BepInEx\plugins\Octomizer\Octomizer.dll
+D:\Projects\C# Projects\Octomizer\obj\Debug\LowSpecGaming.csproj.AssemblyReference.cache
+D:\Projects\C# Projects\Octomizer\obj\Debug\LowSpecGaming.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\C# Projects\Octomizer\obj\Debug\LowSpecGaming.AssemblyInfoInputs.cache
+D:\Projects\C# Projects\Octomizer\obj\Debug\LowSpecGaming.AssemblyInfo.cs
+D:\Projects\C# Projects\Octomizer\obj\Debug\LowSpecGaming.csproj.CoreCompileInputs.cache
+C:\Users\anhth\AppData\Roaming\r2modmanPlus-local\GTFO\profiles\Vox\BepInEx\plugins\LowSpecGaming\LowSpecGaming.deps.json
+C:\Users\anhth\AppData\Roaming\r2modmanPlus-local\GTFO\profiles\Vox\BepInEx\plugins\LowSpecGaming\LowSpecGaming.dll
+D:\Projects\C# Projects\Octomizer\obj\Debug\LowSpecGaming.dll
+D:\Projects\C# Projects\Octomizer\obj\Debug\refint\LowSpecGaming.dll
+D:\Projects\C# Projects\Octomizer\obj\Debug\ref\LowSpecGaming.dll
+D:\Projects\Github\GTFO-LowSpecGaming\obj\Debug\LowSpecGaming.csproj.AssemblyReference.cache
+D:\Projects\Github\GTFO-LowSpecGaming\obj\Debug\LowSpecGaming.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\Github\GTFO-LowSpecGaming\obj\Debug\LowSpecGaming.AssemblyInfoInputs.cache
+D:\Projects\Github\GTFO-LowSpecGaming\obj\Debug\LowSpecGaming.AssemblyInfo.cs
+D:\Projects\Github\GTFO-LowSpecGaming\obj\Debug\LowSpecGaming.csproj.CoreCompileInputs.cache
+D:\Projects\Github\GTFO-LowSpecGaming\obj\Debug\LowSpecGaming.dll
+D:\Projects\Github\GTFO-LowSpecGaming\obj\Debug\refint\LowSpecGaming.dll
+D:\Projects\Github\GTFO-LowSpecGaming\obj\Debug\ref\LowSpecGaming.dll

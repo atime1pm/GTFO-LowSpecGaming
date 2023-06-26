@@ -1,0 +1,10 @@
+C:\Users\anhth\AppData\Roaming\r2modmanPlus-local\GTFO\profiles\Vox\BepInEx\plugins\Octomizer\Octomizer.deps.json
+C:\Users\anhth\AppData\Roaming\r2modmanPlus-local\GTFO\profiles\Vox\BepInEx\plugins\Octomizer\Octomizer.dll
+D:\Projects\C# Projects\Octomizer\obj\Debug\Octomizer.csproj.AssemblyReference.cache
+D:\Projects\C# Projects\Octomizer\obj\Debug\Octomizer.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\C# Projects\Octomizer\obj\Debug\Octomizer.AssemblyInfoInputs.cache
+D:\Projects\C# Projects\Octomizer\obj\Debug\Octomizer.AssemblyInfo.cs
+D:\Projects\C# Projects\Octomizer\obj\Debug\Octomizer.csproj.CoreCompileInputs.cache
+D:\Projects\C# Projects\Octomizer\obj\Debug\Octomizer.dll
+D:\Projects\C# Projects\Octomizer\obj\Debug\refint\Octomizer.dll
+D:\Projects\C# Projects\Octomizer\obj\Debug\ref\Octomizer.dll
