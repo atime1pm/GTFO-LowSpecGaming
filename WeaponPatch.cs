@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AssetShards;
 using BepInEx;
 using Gear;
 using HarmonyLib;
+using ItemSetup;
 using UnityEngine;
 using UnityEngine.UI;
 using static Il2CppSystem.DateTimeParse;
@@ -38,6 +40,19 @@ namespace Octomizer
                         sightMat.SetTexture(Path.GetFileNameWithoutExtension(textures[i]).Substring(2), newSight);
                     }
                 }
+            }
+        }
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(CL_ShadowGenerator), nameof(CL_ShadowGenerator.SetCookie))]
+
+        static void MyFlashLight(ref Texture2D cookie)
+        {
+            if (cookie.name.Contains("FlashlightRegularCookie"))
+            { 
+                byte[]b = File.ReadAllBytes(EntryPoint.sightPaths["GunFlashLight"][0]);
+                Texture2D newSight = new Texture2D(256, 256, TextureFormat.RGBA32, false);
+                newSight.LoadImage(b);
+                cookie = newSight;
             }
         }
     }

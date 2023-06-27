@@ -25,6 +25,7 @@ using MonoMod.RuntimeDetour.HookGen;
 using MonoMod.RuntimeDetour;
 using static UnLogickFactory.FbxTextureExportScheme;
 using static Il2CppSystem.Linq.Expressions.Interpreter.CastInstruction.CastInstructionNoT;
+using AssetShards;
 
 namespace Octomizer
 {
@@ -59,6 +60,7 @@ namespace Octomizer
         [HarmonyPatch(typeof(FPSCamera), nameof(FPSCamera.Update))]
         public static void SCALEDOWN(FPSCamera __instance)
         {
+            __instance.m_camera.cullingMatrix = __instance.m_camera.projectionMatrix * __instance.m_camera.worldToCameraMatrix;
             if (EntryPoint.dynamicResolution.Value)
             {
                 if (markerLayer != null)

@@ -8,6 +8,8 @@ using UnityEngine;
 using Unity.Mathematics;
 using FluffyUnderware.DevTools.Extensions;
 using Enemies;
+using AssetShards;
+using GameData;
 
 namespace Octomizer
 {
@@ -25,6 +27,8 @@ namespace Octomizer
         public static Texture2D newnewSight;
         public static Texture2D oldSight;
         public static float canvasScale;
+        public Texture2D flash;
+        public Texture2D other;
 
         private void Start() {
             GTFO.API.LevelAPI.OnEnterLevel += GetTheNav;
@@ -34,6 +38,7 @@ namespace Octomizer
             }
             ResolutionPatch.MaxTargetFrame();
             EntryPoint.GetTheSettings();
+
         }
         private void Update()
         {

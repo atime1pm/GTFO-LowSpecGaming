@@ -24,6 +24,7 @@ using Il2CppInterop.Runtime.Injection;
 using MonoMod.RuntimeDetour.HookGen;
 using MonoMod.RuntimeDetour;
 using static UnLogickFactory.FbxTextureExportScheme;
+using CullingSystem;
 
 namespace Octomizer
 {
