@@ -10,63 +10,44 @@ using FluffyUnderware.DevTools.Extensions;
 using Enemies;
 using AssetShards;
 using GameData;
+using LevelGeneration;
+using LowSpecGaming.ResolutionPatch;
+using System.Diagnostics.CodeAnalysis;
+using static Il2CppSystem.Linq.Expressions.Interpreter.CastInstruction.CastInstructionNoT;
 
-namespace Octomizer
+namespace LowSpecGaming
 {
     internal class LowSpecGaming : MonoBehaviour
     {
-        private float updateInterval = 0.5f;      // Update interval for FPS calculation and GUI update
-        private float accumulatedTime = 0f;    // Accumulated time since last FPS update
-        private int frames = 0;                // Number of frames since last FPS update
-        private float fps = 0f;                // Calculated FPS value
-        public static float scale = 0.5f;   // The default scaling value
-        public static float min = 0.5f;     // the minimum scaling value
-        public static int maxFPS = 120;
-        private float scaleFactor = 0.5f;
-        public static float farClipScaled = 50 / min;
-        public static Texture2D newnewSight;
-        public static Texture2D oldSight;
-        public static float canvasScale;
-        public Texture2D flash;
-        public Texture2D other;
-
+        public static Vector3 playerPos;
+        public static GameObject markerLayer = null;
+        public static
         private void Start() {
             GTFO.API.LevelAPI.OnEnterLevel += GetTheNav;
+
             if (EntryPoint.GameEnvironment.Value)
             { 
                 GTFO.API.LevelAPI.OnEnterLevel += HateTheGameFeel;
             }
-            ResolutionPatch.MaxTargetFrame();
+            StartUpSettings.MaxTargetFrame();
             EntryPoint.GetTheSettings();
+            Invoke("ApplySettings", 7f);
 
+        }
+        public void ApplySettings() {
+            int value = EntryPoint.TextureSize.Value;
+            StartUpSettings.gameLoaded = true;
+            StartUpSettings.PotatoTexture(ref value);
         }
         private void Update()
         {
-            Task.Run(() => {
-                frames++;
-                accumulatedTime += Time.unscaledDeltaTime;
-                if (accumulatedTime >= updateInterval)
-                {
-                    fps = frames / accumulatedTime;
-                    min = Mathf.Clamp(min, 0.1f, 1f);//ugly code... please dont look
-                    scaleFactor = Mathf.Clamp((Mathf.Floor((fps / maxFPS) * 10) / 10), min, 1f);
-                    if (scale < scaleFactor)
-                    { scale += 0.05f; }
-                    else if (scale > scaleFactor)
-                    { scale -= 0.05f; }
-                    frames = 0;
-                    accumulatedTime = 0f;
-                }
-            });
         }
         private void GetTheNav() {
-            DrawPatch.markerLayer = GameObject.Find("NavMarkerLayer");
-            maxFPS = CellSettingsManager.SettingsData.Video.TargetFramerate.Value;
-
+            markerLayer = GameObject.Find("NavMarkerLayer");
         }
         private void HateTheGameFeel() {
             PreLitVolume.Current.gameObject.GetComponent<AmbientParticles>().enabled = false;
-            PreLitVolume.Current.m_fogDistance = 20;
+            PreLitVolume.Current.m_fogDistance = 45;
             //PreLitVolume.Current.FogAACount = 0;
             PreLitVolume.Current.FogPostBlur= 1;
             PreLitVolume.Current.FogShadowSamples = 0;

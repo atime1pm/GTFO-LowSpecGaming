@@ -9,19 +9,22 @@ using UnityEngine;
 using System.IO.Compression;
 using Dissonance;
 using AssetShards;
+using LowSpecGaming.ResolutionPatch;
+using LowSpecGaming.Misc;
+using PluginInfo = LowSpecGaming.Misc.PluginInfo;
 
-namespace Octomizer
+namespace LowSpecGaming
 {
     [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
     public class EntryPoint : BasePlugin
     {
         public static ConfigEntry<bool> dynamicResolution;
-        public static ConfigEntry<float> dynamicResolutionMinimum;
         public static ConfigEntry<bool> TreeDrawing;
         public static ConfigEntry<bool> GameEnvironment;
         public static ConfigEntry<bool> BioScanUpdate;
         public static ConfigEntry<bool> HateSpitter;
-
+        public static ConfigEntry<bool> enemyBehaviourCulling;
+        public static ConfigEntry<string> currentFolderPath;
         public static ConfigEntry<int> TextureSize;
         public static ConfigFile configFile;
         public static Dictionary<string, string[]> sightPaths = new Dictionary<string, string[]>();
@@ -32,12 +35,12 @@ namespace Octomizer
             m_Harmony = new Harmony(PluginInfo.PLUGIN_GUID);
             this.Log.LogInfo("Mushroom Low Spec Gaming is IN~!!");
             ClassInjector.RegisterTypeInIl2Cpp<LowSpecGaming>();
+            ClassInjector.RegisterTypeInIl2Cpp<Culling>();
+            GetTheSettings();
 
             GetSightFolders();
 
             m_Harmony.PatchAll();
-            GetTheSettings();
-
         }
         public static EntryPoint entry;
         private Harmony m_Harmony;
@@ -48,15 +51,14 @@ namespace Octomizer
         public static void GetTheSettings()
         {
             configFile = new ConfigFile(Path.Combine(Paths.ConfigPath, "mushroom.lowspecgaming.cfg"), true);
-            dynamicResolution = configFile.Bind<bool>("Setup", nameof(dynamicResolution), false, "Whether or not to use dynamic resolution, will improve this in the future");
-            dynamicResolutionMinimum = configFile.Bind<float>("Setup", nameof(dynamicResolutionMinimum), 0.7f, "The minimum of dynamic resolution");
+            dynamicResolution = configFile.Bind<bool>("Setup", nameof(dynamicResolution), false, "Scales down your resolution whenever you move your camera, will improve this in the future");
             TreeDrawing = configFile.Bind<bool>("Setup", nameof(TreeDrawing), false, "whether or not to draw IRF like trees and tentacles");
             GameEnvironment = configFile.Bind<bool>("Setup", nameof(GameEnvironment), true, "Reduce fog distance, shadow distance, no more dust particles (requires restart to take effect)");
             BioScanUpdate = configFile.Bind<bool>("Setup", nameof(BioScanUpdate), false, "Whether or not Bio Scans would blink, courtesy to McCad, this is his online code");
             HateSpitter = configFile.Bind<bool>("Setup", nameof(HateSpitter), true, "If you hate spitters, make them low quality");
-
+            currentFolderPath = configFile.Bind<string>("Setup", nameof(currentFolderPath),"" , "Manual Path to the current folder that has the plugin if it fails to load normally");
+            enemyBehaviourCulling = configFile.Bind<bool>("Setup", nameof(enemyBehaviourCulling), false, "Reduce Enemy Update in order to save performance, will improve this feature in the future for better performance");
             TextureSize = configFile.Bind<int>("Setup", nameof(TextureSize), 0, "Texture size,the higher you go the lower the resolution, max is 10");
-            LowSpecGaming.min = dynamicResolutionMinimum.Value;
             DrawPatch.dynamic = dynamicResolution.Value;
         }
         public static void GetSightFolders()
@@ -67,8 +69,17 @@ namespace Octomizer
             entry.Log.LogInfo("Trying to find sights");
 
             //UGlies code ive ever written in my life
-            foreach (string folder in Directory.GetDirectories(Paths.PluginPath))
-            { if (folder.Contains(PluginInfo.PLUGIN_NAME)) { currentFolder = folder; } }
+            if (currentFolderPath.Value.Equals("") || currentFolderPath.Value == null)
+            {
+                entry.Log.LogInfo("Auto Loaded");
+                foreach (string folder in Directory.GetDirectories(Paths.PluginPath))
+                { if (folder.Contains(PluginInfo.PLUGIN_NAME)) { currentFolder = folder; } }
+            }
+            else
+            {
+                entry.Log.LogInfo("Manually Loaded");
+                currentFolder = currentFolderPath.Value;
+            }
 
             if (!(Directory.Exists(Path.Combine(currentFolder, "Sight"))))
             {
@@ -97,15 +108,14 @@ namespace Octomizer
                             }
                             string currentGear = newSightFolder.Split("\\")[newSightFolder.Split("\\").Count<String>() - 1];
                             sightPaths[currentGear] = Directory.GetFiles(newSightFolder);
-                        }
-                        else
-                        {
-                            string currentGear = gearSight.Split("\\")[gearSight.Split("\\").Count<String>() - 1];
-                            sightPaths[currentGear] = Directory.GetFiles(gearSight);
-                        }
-
+                    }
+                    else
+                    {
+                        string currentGear = gearSight.Split("\\")[gearSight.Split("\\").Count<String>() - 1];
+                        sightPaths[currentGear] = Directory.GetFiles(gearSight);
                     }
                 }
+            }   
         }
 
 

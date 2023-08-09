@@ -25,13 +25,13 @@ using MonoMod.RuntimeDetour.HookGen;
 using MonoMod.RuntimeDetour;
 using static UnLogickFactory.FbxTextureExportScheme;
 using CullingSystem;
+using FluffyUnderware.Curvy.Generator;
 
-namespace Octomizer
+namespace LowSpecGaming.Misc
 {
     [HarmonyPatch]
     internal class DrawPatch
     {
-        public static GameObject markerLayer = null;
         static IntPtr nullCamera = IntPtr.Zero;
         public static bool dynamic = false;
         static bool drawing = true;
@@ -49,11 +49,12 @@ namespace Octomizer
         {
             return EntryPoint.TreeDrawing.Value;
         }
+
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(Decals.Decal), nameof(Decals.Decal.OnEnable))]
+        [HarmonyPatch(typeof(Decal), nameof(Decal.OnEnable))]
         public static void ShutUpSpitter(Decal __instance)
         {
-            if (!(EntryPoint.HateSpitter.Value))
+            if (!EntryPoint.HateSpitter.Value)
             { return; }
             if (__instance.gameObject.name.ToLower().Contains("spitter"))
             {
@@ -65,18 +66,7 @@ namespace Octomizer
                 Task.Run(__instance.Destroy);
             }
         }
-        [HarmonyPrefix]
-        [HarmonyPatch(typeof(CellSettingsApply), nameof(CellSettingsApply.ApplyTextureSize))]
-        public static bool PotatoTexture(ref int value)
-        {
-            EntryPoint.GetTheSettings();
-            value = EntryPoint.TextureSize.Value;
-            if (QualitySettings.masterTextureLimit != value)
-            {
-                QualitySettings.masterTextureLimit = value;
-            }
-            return false;
-        }
+
     }
 }
 

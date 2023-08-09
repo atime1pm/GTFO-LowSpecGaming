@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AssetShards;
 using BepInEx;
+using CullingSystem;
 using Gear;
 using HarmonyLib;
 using ItemSetup;
@@ -12,7 +13,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static Il2CppSystem.DateTimeParse;
 
-namespace Octomizer
+namespace LowSpecGaming.Misc
 {
     [HarmonyPatch]
     internal class WeaponPatch
@@ -23,12 +24,11 @@ namespace Octomizer
         static void MySight(GearMaterialFeeder __instance)
         {// I dont know any other ways to do this.....WEFWEFAFASFASFASF
             string[] textures = null;
-            if (EntryPoint.sightPaths.TryGetValue(__instance.transform.parent.gameObject.name,out textures))
+            if (EntryPoint.sightPaths.TryGetValue(__instance.transform.parent.gameObject.name, out textures))
             {
-                EntryPoint.entry.Log.LogInfo(__instance.transform.parent.gameObject.name);
                 Renderer[] rens = __instance.m_allRenderers;
-                int index = int.Parse((Path.GetFileNameWithoutExtension(textures[0])).Substring(0, 2));
-                Material sightMat = rens.ElementAt<Renderer>(index).material;
+                int index = int.Parse(Path.GetFileNameWithoutExtension(textures[0]).Substring(0, 2));
+                Material sightMat = rens.ElementAt(index).material;
                 if (sightMat != null)
                 {
                     string[] textureToReplace = { "_ReticuleA", "_ReticuleB", "_ReticuleC" };
@@ -44,16 +44,28 @@ namespace Octomizer
         }
         [HarmonyPrefix]
         [HarmonyPatch(typeof(CL_ShadowGenerator), nameof(CL_ShadowGenerator.SetCookie))]
-
         static void MyFlashLight(ref Texture2D cookie)
         {
             if (cookie.name.Contains("FlashlightRegularCookie"))
-            { 
-                byte[]b = File.ReadAllBytes(EntryPoint.sightPaths["GunFlashLight"][0]);
+            {
+                byte[] b = File.ReadAllBytes(EntryPoint.sightPaths["GunFlashLight"][0]);
                 Texture2D newSight = new Texture2D(256, 256, TextureFormat.RGBA32, false);
                 newSight.LoadImage(b);
                 cookie = newSight;
             }
         }
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(C_Node), nameof(C_Node.Show))]
+        static bool ShowWhat()
+        {//Obselete code still being called for some reasons
+            return false;
+        }
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(C_Node), nameof(C_Node.Hide))]
+        static bool HideWhat()
+        {//Obselete code still being called for some reasons
+            return false;
+        }
+
     }
 }
