@@ -6,7 +6,7 @@
 
         public const string PLUGIN_NAME = "LowSpecGaming";
 
-        public const string PLUGIN_VERSION = "0.0.9";
+        public const string PLUGIN_VERSION = "0.1.1";
 
         public const string AUTHOR = "time1pm";
 

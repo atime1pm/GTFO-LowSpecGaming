@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using AssetShards;
@@ -9,6 +10,7 @@ using CullingSystem;
 using Gear;
 using HarmonyLib;
 using ItemSetup;
+using LowSpecGaming.Structs;
 using UnityEngine;
 using UnityEngine.UI;
 using static Il2CppSystem.DateTimeParse;
@@ -18,9 +20,11 @@ namespace LowSpecGaming.Misc
     [HarmonyPatch]
     internal class WeaponPatch
     {
+        static GameObject emptyShell = new GameObject("EmptyShell");
+        public static HiTexture flashlight = new HiTexture(EntryPoint.sightPaths["GunFlashLight"][0]);
+        public static byte[] data;
         [HarmonyPostfix]
         [HarmonyPatch(typeof(GearMaterialFeeder), nameof(GearMaterialFeeder.ScanAndSetupParts))]
-
         static void MySight(GearMaterialFeeder __instance)
         {// I dont know any other ways to do this.....WEFWEFAFASFASFASF
             string[] textures = null;
@@ -48,24 +52,22 @@ namespace LowSpecGaming.Misc
         {
             if (cookie.name.Contains("FlashlightRegularCookie"))
             {
-                byte[] b = File.ReadAllBytes(EntryPoint.sightPaths["GunFlashLight"][0]);
-                Texture2D newSight = new Texture2D(256, 256, TextureFormat.RGBA32, false);
-                newSight.LoadImage(b);
-                cookie = newSight;
+                cookie.LoadImage(data);
             }
         }
         [HarmonyPrefix]
-        [HarmonyPatch(typeof(C_Node), nameof(C_Node.Show))]
-        static bool ShowWhat()
-        {//Obselete code still being called for some reasons
+        [HarmonyPatch(typeof(ShellCasing), nameof(ShellCasing.Awake))]
+        static bool MyMags(ShellCasing __instance)
+        {
+            __instance.gameObject.active = false;
+            GameObject.Destroy(__instance.transform.GetChild(0).gameObject);
             return false;
         }
         [HarmonyPrefix]
-        [HarmonyPatch(typeof(C_Node), nameof(C_Node.Hide))]
-        static bool HideWhat()
-        {//Obselete code still being called for some reasons
-            return false;
+        [HarmonyPatch(typeof(DisableAfterDelay), nameof(DisableAfterDelay.Awake))]
+        static void MyBullets(DisableAfterDelay __instance)
+        {
+            __instance.delay = 0;
         }
-
     }
 }

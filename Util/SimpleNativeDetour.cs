@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LowSpecGaming.Misc
+namespace LowSpecGaming.Util
 {
 
     public static unsafe class Detour

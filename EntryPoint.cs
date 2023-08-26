@@ -12,20 +12,23 @@ using AssetShards;
 using LowSpecGaming.ResolutionPatch;
 using LowSpecGaming.Misc;
 using PluginInfo = LowSpecGaming.Misc.PluginInfo;
+using LowSpecGaming.Patches;
+using LowSpecGaming.Structs;
+using static UnLogickFactory.FbxTextureExportScheme;
 
 namespace LowSpecGaming
 {
     [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
     public class EntryPoint : BasePlugin
     {
-        public static ConfigEntry<bool> dynamicResolution;
-        public static ConfigEntry<bool> TreeDrawing;
-        public static ConfigEntry<bool> GameEnvironment;
-        public static ConfigEntry<bool> BioScanUpdate;
-        public static ConfigEntry<bool> HateSpitter;
-        public static ConfigEntry<bool> enemyBehaviourCulling;
+        public static ConfigEntry<DynamicResolution> dynamicResolution;
+        public static ConfigEntry<TreeDrawing> treeDrawing;
+        public static ConfigEntry<GameEnvironment> gameEnvironment;
+        public static ConfigEntry<BioScanBlink> BioScanUpdate;
+        public static ConfigEntry<HateSpitter> hateSpitter;
+        public static ConfigEntry<EnemyBehaviourCulling> enemyBehaviourCulling;
         public static ConfigEntry<string> currentFolderPath;
-        public static ConfigEntry<int> TextureSize;
+        public static ConfigEntry<TextureSize> textureSize;
         public static ConfigFile configFile;
         public static Dictionary<string, string[]> sightPaths = new Dictionary<string, string[]>();
 
@@ -37,9 +40,9 @@ namespace LowSpecGaming
             ClassInjector.RegisterTypeInIl2Cpp<LowSpecGaming>();
             ClassInjector.RegisterTypeInIl2Cpp<Culling>();
             GetTheSettings();
-
+            //Detour_DrawMeshInstancedIndirect.CreateDetour();
             GetSightFolders();
-
+            WeaponPatch.data = File.ReadAllBytes(sightPaths["GunFlashLight"][0]);
             m_Harmony.PatchAll();
         }
         public static EntryPoint entry;
@@ -51,15 +54,16 @@ namespace LowSpecGaming
         public static void GetTheSettings()
         {
             configFile = new ConfigFile(Path.Combine(Paths.ConfigPath, "mushroom.lowspecgaming.cfg"), true);
-            dynamicResolution = configFile.Bind<bool>("Setup", nameof(dynamicResolution), false, "Scales down your resolution whenever you move your camera, will improve this in the future");
-            TreeDrawing = configFile.Bind<bool>("Setup", nameof(TreeDrawing), false, "whether or not to draw IRF like trees and tentacles");
-            GameEnvironment = configFile.Bind<bool>("Setup", nameof(GameEnvironment), true, "Reduce fog distance, shadow distance, no more dust particles (requires restart to take effect)");
-            BioScanUpdate = configFile.Bind<bool>("Setup", nameof(BioScanUpdate), false, "Whether or not Bio Scans would blink, courtesy to McCad, this is his online code");
-            HateSpitter = configFile.Bind<bool>("Setup", nameof(HateSpitter), true, "If you hate spitters, make them low quality");
-            currentFolderPath = configFile.Bind<string>("Setup", nameof(currentFolderPath),"" , "Manual Path to the current folder that has the plugin if it fails to load normally");
-            enemyBehaviourCulling = configFile.Bind<bool>("Setup", nameof(enemyBehaviourCulling), false, "Reduce Enemy Update in order to save performance, will improve this feature in the future for better performance");
-            TextureSize = configFile.Bind<int>("Setup", nameof(TextureSize), 0, "Texture size,the higher you go the lower the resolution, max is 10");
-            DrawPatch.dynamic = dynamicResolution.Value;
+            dynamicResolution = configFile.Bind<DynamicResolution>("Setup", nameof(dynamicResolution), DynamicResolution.Stable, "Scales down your resolution whenever you move your camera, will improve this in the future");
+            treeDrawing = configFile.Bind<TreeDrawing>("Setup", nameof(treeDrawing), TreeDrawing.Draw, "whether or not to draw IRF like trees and tentacles");
+            gameEnvironment = configFile.Bind<GameEnvironment>("Setup", nameof(gameEnvironment), GameEnvironment.Full, "Reduce fog distance, shadow distance, no more dust particles (requires restart to take effect)");
+            BioScanUpdate = configFile.Bind<BioScanBlink>("Setup", nameof(BioScanUpdate), BioScanBlink.DontBlink, "Whether or not Bio Scans would blink, courtesy to McCad, this is his online code");
+            hateSpitter = configFile.Bind<HateSpitter>("Setup", nameof(hateSpitter), HateSpitter.HATE, "If you hate spitters, make them low quality");
+
+            enemyBehaviourCulling = configFile.Bind<EnemyBehaviourCulling>("Setup", nameof(enemyBehaviourCulling), EnemyBehaviourCulling.Full, "Reduce Enemy Update in order to save performance, will improve this feature in the future for better performance");
+            textureSize = configFile.Bind<TextureSize>("Setup", nameof(textureSize), TextureSize.Full, "Texture size, for the potata army");
+            currentFolderPath = configFile.Bind<string>("Setup", nameof(currentFolderPath),"" , "Manual Path to the current folder that has the plugin if it fails to load normally, This will be removed soon");
+
         }
         public static void GetSightFolders()
         {
@@ -118,7 +122,10 @@ namespace LowSpecGaming
             }   
         }
 
-
+        public static void LogIt(object data)
+        {
+            entry.Log.LogInfo(data);
+        }
         public static void DecompressFolder(string compressedFilePath, string decompressedFolderPath)
         {
             // Extract the contents of the ZIP archive to a folder
@@ -127,4 +134,5 @@ namespace LowSpecGaming
             entry.Log.LogInfo("Folder decompressed successfully.");
         }
     }
+
 }

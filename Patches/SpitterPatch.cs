@@ -30,31 +30,14 @@ using FluffyUnderware.Curvy.Generator;
 namespace LowSpecGaming.Misc
 {
     [HarmonyPatch]
-    internal class DrawPatch
+    internal static class SpitterPatch
     {
-        static IntPtr nullCamera = IntPtr.Zero;
-        public static bool dynamic = false;
-        static bool drawing = true;
-        static int textureSize = 0;
-
-        [HarmonyPrefix]
-        [HarmonyPatch(typeof(InstancedRenderFeatureRenderer), nameof(InstancedRenderFeatureRenderer.Draw))]
-        public static bool DrawIRF(ref IntPtr camera)
-        {//I hate R7D1 fr fr
-            return EntryPoint.TreeDrawing.Value;
-        }
-        [HarmonyPrefix]
-        [HarmonyPatch(typeof(InstancedRenderFeatureRenderer), nameof(InstancedRenderFeatureRenderer.Update))]
-        public static bool UpdateIRF()
-        {
-            return EntryPoint.TreeDrawing.Value;
-        }
-
+        public static bool hate = true;
         [HarmonyPostfix]
         [HarmonyPatch(typeof(Decal), nameof(Decal.OnEnable))]
         public static void ShutUpSpitter(Decal __instance)
         {
-            if (!EntryPoint.HateSpitter.Value)
+            if (!hate)
             { return; }
             if (__instance.gameObject.name.ToLower().Contains("spitter"))
             {
@@ -66,7 +49,12 @@ namespace LowSpecGaming.Misc
                 Task.Run(__instance.Destroy);
             }
         }
-
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(InfectionSpitter), nameof(InfectionSpitter.StopPurring))]
+        public static void StopPurring(InfectionSpitter __instance)
+        {
+            __instance.m_purrLoopPlaying = true;
+        }
     }
 }
 

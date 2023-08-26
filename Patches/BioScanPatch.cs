@@ -10,8 +10,11 @@ using UnityEngine;
 namespace LowSpecGaming.Misc
 {
     [HarmonyPatch]
-    class BioScanPatch
+    internal static class BioScanPatch
     { /// I STOLE THIS FROM MCCAD PLEASE DONT SUEEE MEEEEEEjioajkofkolasdflasjnldf
+
+        public static bool update = false;
+
         [HarmonyPrefix]
         [HarmonyPatch(typeof(CP_Holopath_Spline), nameof(CP_Holopath_Spline.Reveal))]
         static void Holopath_Spline_Reveal(CP_Holopath_Spline __instance)
@@ -25,7 +28,7 @@ namespace LowSpecGaming.Misc
         [HarmonyPatch(typeof(CP_Bioscan_Graphics), nameof(CP_Bioscan_Graphics.Update))]
         static bool Bioscan_Graphics_Update()
         {
-            return EntryPoint.BioScanUpdate.Value;
+            return update;
         }
 
         [HarmonyPostfix]

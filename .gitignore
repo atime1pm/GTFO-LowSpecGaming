@@ -6,3 +6,12 @@
 *.dll
 *.cache
 *.cache
+.vs/LowSpecGaming/DesignTimeBuild/.dtbcache.v2
+*.v2
+*.vsidx
+*.vsidx
+.vs/LowSpecGaming/v17/.suo
+*.bin
+*.bin
+*.dll
+*.dll

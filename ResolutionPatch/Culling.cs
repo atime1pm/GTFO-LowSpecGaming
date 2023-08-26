@@ -1,4 +1,7 @@
-﻿using Il2CppInterop.Runtime.InteropTypes.Arrays;
+﻿using CullingSystem;
+using FluffyUnderware.Curvy.ThirdParty.LibTessDotNet;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using LevelGeneration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,113 +9,128 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Il2CppSystem;
+using Il2CppInterop.Runtime;
+using System.Collections;
+using String = Il2CppSystem.String;
 
 namespace LowSpecGaming.ResolutionPatch
 {
     internal class Culling : MonoBehaviour
     {
-        public ComputeShader distanceCalculationShader;
-        Transform[] points = new Transform[0];
-        public int[] indexFromBuffer;
-        Il2CppSystem.Array irbArray;
-        public int[] previousFromBuffer;
-        Il2CppSystem.Array pfbArray;
-        public int[] currentFromBuffer;
-        Il2CppSystem.Array cfbArray;
-
-        private ComputeBuffer currentBuffer;
-        private ComputeBuffer outputBuffer;
-        private ComputeBuffer prevBuffer;
-        private ComputeBuffer distanceBuffer;
-        private ComputeBuffer pointPositionsBuffer;
-
-        public static UnityEngine.Object shader;
         float accumTime = 0.0f;
-        private Vector3[] pointPositions = new Vector3[0];
-        MeshRenderer[] rens;
+        C_Cullable[] cullables;
+        Vector3[] points;
+        public static Vector3 playerPos;
+        List<int> range;
+        int slice;
+        int part;
+        float interval;
+        int intervalMil;
+        int count;
         private void Awake()
         {
-
-            EntryPoint.entry.Log.LogInfo(shader == null);
-
             this.enabled = false;
+            GTFO.API.LevelAPI.OnBuildDone += StartThis;
+        }
 
-            //GTFO.API.LevelAPI.OnEnterLevel += OnEnable;
+        private void StartThis() {
+            this.enabled = true;
+            C_CullingManager.CullingEnabled = false;
+            C_CullingManager.m_cullingEnabled = false;
         }
-        private void Load()
-        {
-            shader = Resources.Load("C:/Users/anhth/AppData/Roaming/r2modmanPlus-local/GTFO/profiles/Vox/BepInEx/plugins/LowSpecGaming/Sight/Shader/NotSharpen.shader");
+
+        public void GetRenderer() {
+            var pointPositions = new List<Vector3>();
+            var m_clusters = new Il2CppSystem.Collections.Generic.List<C_Cullable>();
+
+            LG_Area[] objectsOfType1 = GameObject.FindObjectsOfType<LG_Area>();
+            for (int index1 = 0; index1 < objectsOfType1.Length; ++index1)
+            {
+                LG_Area lgArea = objectsOfType1[index1];
+                if (lgArea != null && lgArea.m_courseNode != null && lgArea.m_courseNode.m_cullNode != null)
+                {
+                    C_Node cullNode = lgArea.m_courseNode.m_cullNode;
+                    for (int index2 = 0; index2 < cullNode.m_staticCullables.Count; ++index2)
+                    {
+                        var c = cullNode.m_staticCullables[index2];
+                        m_clusters.Add(c);
+                        pointPositions.Add(c.Bounds.center);
+
+                    }
+                }
+            }
+            cullables = m_clusters.ToArray();
+            points = pointPositions.ToArray();
+            EntryPoint.LogIt(m_clusters.Count);
         }
-        [DllImport("__Internal")]
-        private static extern IntPtr GetIl2CppArrayData(IntPtr il2cppArray);
+
+        public void SetDistance(int distance) { 
+        }
         private void OnEnable()
         {
-            pointPositions = new Vector3[points.Length];
+            GetRenderer();
 
-            for (int i = 0; i < pointPositions.Length; i++)
+            slice = 50;
+            range = new List<int>();
+            part = points.Length / slice;
+            for (int i = 0; i < slice; i++)
             {
-                pointPositions[i] = points[i].position;
+                range.Add(part * i);
             }
-            rens = new MeshRenderer[points.Length];
-            for (int i = 0; i < rens.Length; i++)
-            {
-                rens[i] = points[i].gameObject.GetComponent<MeshRenderer>();
-            }
-
-
-            pointPositionsBuffer = new ComputeBuffer(pointPositions.Length, sizeof(float) * 3);
-            distanceBuffer = new ComputeBuffer(pointPositions.Length, sizeof(float));
-            currentBuffer = new ComputeBuffer(pointPositions.Length + 1, sizeof(int));
-            prevBuffer = new ComputeBuffer(pointPositions.Length + 1, sizeof(int));
-            outputBuffer = new ComputeBuffer(pointPositions.Length + 1, sizeof(int));
-
-            Il2CppSystem.Array ppArray = new Il2CppSystem.Array();
-            pointPositions.TryCastTo(out ppArray);
-
-            pointPositionsBuffer.SetData(ppArray);
-            distanceCalculationShader.SetBuffer(0, "distanceBuffer", distanceBuffer);
-            distanceCalculationShader.SetBuffer(0, "pointPositions", pointPositionsBuffer);
-            distanceCalculationShader.SetInt("arraysize", pointPositions.Length);
-            distanceCalculationShader.SetBuffer(0, "currentBuffer", currentBuffer);
-            distanceCalculationShader.SetBuffer(0, "outputBuffer", outputBuffer);
-            distanceCalculationShader.SetBuffer(0, "prevBuffer", prevBuffer);
-
-
-            indexFromBuffer = new int[currentBuffer.count];
-            irbArray = new Il2CppSystem.Array();
-            indexFromBuffer.TryCastTo(out irbArray);
-
-            previousFromBuffer = new int[currentBuffer.count];
-            pfbArray = new Il2CppSystem.Array();
-            previousFromBuffer.TryCastTo(out pfbArray);
-
-            currentFromBuffer = new int[currentBuffer.count];
-            cfbArray = new Il2CppSystem.Array();
-            currentFromBuffer.TryCastTo(out cfbArray);
+            range.Add(points.Length);
+            EntryPoint.LogIt(range[range.Count-1]);
+            interval = 2.5f / slice;
+            intervalMil = (int)(interval * 1000);
+            accumTime = 0f;
+            count = 0;
         }
         private void Update()
         {
-            distanceCalculationShader.SetVector("floatingPoint", Camera.main.transform.position);
-
-            outputBuffer.GetData(irbArray);
-            currentBuffer.GetData(pfbArray);
-            Marshal.Copy(irbArray.Pointer, indexFromBuffer, 0, indexFromBuffer.Length);
-            distanceCalculationShader.Dispatch(0, 1, 1, 1);
-            for (int i = 0; i < indexFromBuffer[irbArray.GetLength(0) - 1]; i++)
+            accumTime += Time.deltaTime;
+            Vector3 cameraPos = playerPos;
+            if (accumTime > interval)
             {
-                if (indexFromBuffer[i] > 0)
-                    rens[indexFromBuffer[i]].forceRenderingOff = false;
-                if (indexFromBuffer[i] < 0)
-                    rens[-indexFromBuffer[i]].forceRenderingOff = true;
+                if (count > (range.Count - 2))
+                    count = 0;
+                DistanceCullStepped(count, cameraPos);
+                count++;
             }
-
-            prevBuffer.SetData(pfbArray);
-
-            distanceCalculationShader.SetBuffer(0, "prevBuffer", prevBuffer);
         }
-        private void OnDestroy()
+        private void DistanceCullStepped(int a,Vector3 cameraPos)
         {
-            
+            Vector3 pos;
+            for (int i = range[a]; i < range[a + 1]; i++)
+            {
+                pos = points[i];
+                float x = (pos.x - cameraPos.x);
+                float z = (pos.z - cameraPos.z);
+                if (x * x + z * z < 3900)
+                    cullables[i].Show();
+                else
+                    cullables[i].Hide();
+            }
+        }
+        private void DistanceCull()
+        {
+            Debug.Log("We're Culling");
+            Vector3 cameraPos = playerPos;
+            Vector3 pos;
+            for (int a = 0; a < range.Count - 1; a++)
+            {
+                for (int i = range[a]; i < range[a + 1]; i++)
+                {
+                    pos = points[i];
+                    float x = (pos.x - cameraPos.x);
+                    float z = (pos.z - cameraPos.z);
+                    if (x * x + z * z < 4096)
+                        cullables[i].Show();
+                    else
+                        cullables[i].Hide();
+                }
+                //await Task.Delay(intervalMil);
+                //yield return new WaitForSeconds(interval);
+            }
         }
     }
 }
