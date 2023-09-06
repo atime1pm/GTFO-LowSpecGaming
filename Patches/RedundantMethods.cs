@@ -11,11 +11,9 @@ namespace LowSpecGaming.Patches
     [HarmonyPatch]
     internal class RedundantMethods
     {
-        [HarmonyPrefix]
-        [HarmonyPatch(typeof(CL_Light), nameof(CL_Light.UpdateData))]
-        public static bool LightCull()
-        {
-            return false;
-        }
+        //Doesn't really affect anything in the game
+        //
+        [HarmonyPrefix][HarmonyPatch(typeof(CL_Light), nameof(CL_Light.UpdateData))]
+        public static bool LightCull() => false;
     }
 }

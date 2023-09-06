@@ -15,3 +15,15 @@
 *.bin
 *.dll
 *.dll
+.vs/LowSpecGaming/v17/.suo
+*.cache
+*.cache
+obj/Debug/LowSpecGaming.csproj.BuildWithSkipAnalyzers
+obj/Debug/LowSpecGaming.csproj.AssemblyReference.cache
+obj/Debug/LowSpecGaming.csproj.CoreCompileInputs.cache
+obj/Debug/LowSpecGaming.dll
+obj/Debug/ref/LowSpecGaming.dll
+obj/Debug/refint/LowSpecGaming.dll
+.vs/ProjectEvaluation/lowspecgaming.projects.v7.bin
+*.v2
+.vs/LowSpecGaming/FileContentIndex/9303f0f8-1c85-441f-960b-b37aa0f83e9a.vsidx

@@ -5,40 +5,54 @@ using Dissonance;
 using System.Runtime.CompilerServices;
 using Il2CppSystem.Collections;
 using LowSpecGaming.Patches;
-using LowSpecGaming.ResolutionPatch;
 using LowSpecGaming.Misc;
-using LowSpecGaming.Structs;
+using GameData;
 
 namespace LowSpecGaming
 {
     [HarmonyPatch]
     internal class StartUpSettings
     {
-        public static bool gameLoaded = false;
-        [HarmonyPostfix]
-        [HarmonyPatch(typeof(StartMainGame), nameof(StartMainGame.Start))]
+        //We make the game loads at full texture first
+        //This prevent the SUPER GLOSS error
+        //
+        [HarmonyPostfix][HarmonyPatch(typeof(StartMainGame), nameof(StartMainGame.Start))]
         public static void MakeItWork(StartMainGame __instance)
         {
-            __instance.gameObject.AddComponent<LowSpecGaming>();//at least it works
+            __instance.gameObject.AddComponent<LowSpecGaming>();
             QualitySettings.masterTextureLimit = 0;
         }
+
+
+        //We apply all the settings here
+        //
         [HarmonyPrefix]
         [HarmonyPatch(typeof(CellSettingsApply), nameof(CellSettingsApply.ApplyTextureSize))]
         public static bool PotatoTexture(ref int value)
         {
             EntryPoint.GetTheSettings();
-            ResolutionPatch.ResolutionPatch.markerLayer = GameObject.Find("GUI").transform.GetChild(0).GetChild(0).GetComponent<UI_Canvas>();
-            Detour_DrawMeshInstancedIndirect.draw = EntryPoint.treeDrawing.Value == TreeDrawing.Draw ? true:false ;
-            ResolutionPatch.ResolutionPatch.dynamic = EntryPoint.dynamicResolution.Value == DynamicResolution.Dynamic ? true:false ;
-            ResolutionPatch.ResolutionPatch.canvasScale = CellSettingsManager.SettingsData.Video.Resolution.Value.y / 1080f;
-            SpitterPatch.hate = EntryPoint.hateSpitter.Value == HateSpitter.HATE ? true :false;
-            BioScanPatch.update = EntryPoint.BioScanUpdate.Value == BioScanBlink.Blink ? true: false;
 
+            ResolutionPatch.dynamic = EntryPoint.dynamicResolution.Value == DynamicResolution.Dynamic;
+
+            //Find The player layer of the GUI, this is how marker gets scale right with the camera
+            //
+            ResolutionPatch.markerLayer = GameObject.Find("GUI").transform.GetChild(0).GetChild(0).GetComponent<UI_Canvas>();
+            //Get the scaling of how the canvas is supposed to scale, some how this value is scale according to 1080p
+            //
+            ResolutionPatch.canvasScale = CellSettingsManager.SettingsData.Video.Resolution.Value.y / 1080f;
+
+
+            SpitterPatch.hate = EntryPoint.hateSpitter.Value == HateSpitter.HATE;
+            BioScanPatch.update = EntryPoint.BioScanUpdate.Value == BioScanBlink.Blink;
+            Detour_DrawMeshInstancedIndirect.draw = EntryPoint.treeDrawing.Value == TreeDrawing.Draw;
+
+
+            //This prevents the texture from reloading whenever you change settings
+            //
             value = (int)EntryPoint.textureSize.Value;
             if (QualitySettings.masterTextureLimit != value)
-            {
                 QualitySettings.masterTextureLimit = value;
-            }
+            
             return false;
         }
     }
