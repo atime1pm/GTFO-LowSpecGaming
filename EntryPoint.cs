@@ -19,6 +19,7 @@ namespace LowSpecGaming
         public static ConfigEntry<EnemyBehaviourCulling> enemyBehaviourCulling;
         public static ConfigEntry<string> currentFolderPath;
         public static ConfigEntry<TextureSize> textureSize;
+        public static ConfigEntry<Experimental> redundantComponents;
         public static ConfigFile configFile;
 
         public override void Load()
@@ -56,6 +57,8 @@ namespace LowSpecGaming
                 "Reduce Enemy Update in order to save performance, will improve this feature in the future for better performance");
             textureSize = configFile.Bind<TextureSize>("Setup", nameof(textureSize), TextureSize.Full, 
                 "Texture size, for the potata army");
+            redundantComponents = configFile.Bind<Experimental>("Setup", nameof(redundantComponents), Experimental.TurnOn,
+                "VERY EXPERIMENTAL, turn off some redundant compenents in game || You might gain 5fps");
             currentFolderPath = configFile.Bind<string>("Setup", nameof(currentFolderPath),"" , 
                 "Manual Path to the current folder that has the plugin if it fails to load normally, This will be removed soon");
 
@@ -106,6 +109,11 @@ namespace LowSpecGaming
         Full = 0,
         Reduced = 1,
     }
+    public enum Experimental
+    {
+        TurnOn = 0,
+        TurnOff = 1,
+    }
     public enum TextureSize
     {
         Full = 0,
@@ -130,7 +138,7 @@ namespace LowSpecGaming
 
         public const string PLUGIN_NAME = "LowSpecGaming";
 
-        public const string PLUGIN_VERSION = "0.1.3";
+        public const string PLUGIN_VERSION = "0.1.6";
 
         public const string AUTHOR = "time1pm";
 

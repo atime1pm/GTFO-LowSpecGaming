@@ -20,6 +20,7 @@ namespace LowSpecGaming
             EntryPoint.GetTheSettings();
 
             GTFO.API.LevelAPI.OnEnterLevel += HateTheGameFeel;
+            GTFO.API.LevelAPI.OnEnterLevel += ClusterRenderingOff;
             GTFO.API.LevelAPI.OnLevelCleanup += CheckSound;
 
             //We apply settings 7 seconds after the game loads
@@ -53,7 +54,11 @@ namespace LowSpecGaming
         //Not sure to use this or not
         //But this could give us around 5fps+
         //
-        public static void ClusterRenderingOff() => ClusteredRendering.Current.enabled = false;
+        public static void ClusterRenderingOff() 
+        {
+            if (EntryPoint.redundantComponents.Value == Experimental.TurnOn) return;
+            ClusteredRendering.Current.enabled = false; 
+        }
 
     }
 }

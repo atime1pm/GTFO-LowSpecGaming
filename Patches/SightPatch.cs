@@ -22,7 +22,6 @@ namespace LowSpecGaming.Patches
             string pluginFolder = "";//The folder 
             string[] sightFolder = null;
 
-
             LogIt("Trying to find sights");
 
 

@@ -38,17 +38,17 @@ namespace LowSpecGaming.Misc
         //
         public static bool hate = true;
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(Decal), nameof(Decal.OnEnable))]
-        public static void ShutUpSpitter(Decal __instance)
+        [HarmonyPatch(typeof(InfectionSpitter), nameof(InfectionSpitter.Awake))]
+        public static void ShutUpSpitter(InfectionSpitter __instance)
         {
-            if (!hate && !__instance.gameObject.name.ToLower().Contains("spitter")) return;
+            if (!hate) return;
 
-            Material mat = __instance.GetComponentInParent<InfectionSpitter>().m_renderer.material;
+            Material mat = __instance.m_renderer.material;
             mat.GetTexture(1).mipMapBias = 10;
             mat.GetTexture("_MetallicGlossMap").mipMapBias = 10;
             mat.GetTexture("_SSSMap").mipMapBias = 10;
             mat.GetTexture("_MainTex_B").mipMapBias = 10;
-            Task.Run(__instance.Destroy);
+            GameObject.Destroy(__instance.gameObject.GetComponentInChildren<Decal>());
         }
 
 
@@ -76,7 +76,7 @@ namespace LowSpecGaming.Misc
         [HarmonyPrefix][HarmonyPatch(typeof(InfectionSpitter), nameof(InfectionSpitter.StopPurring))]
         public static void StopPurring(InfectionSpitter __instance) => __instance.m_purrLoopPlaying = true;
         [HarmonyPrefix][HarmonyPatch(typeof(InfectionSpitter), nameof(InfectionSpitter.TryPlaySound))]
-        public static bool StopPurring(ref uint id)
+        public static bool StopPurringSeriously(ref uint id)
         {
             if (id == EVENTS.INFECTION_SPITTER_PURR_LOOP)
                 return false;
