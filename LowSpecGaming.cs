@@ -16,19 +16,19 @@ namespace LowSpecGaming
 {
     internal class LowSpecGaming : MonoBehaviour
     {
-        public static List<UnityEngine.Object>sightsObject;
-        public static int sightCount;
-        public static List<Texture2D> texts;
         public void Awake() {
             EntryPoint.GetTheSettings();
 
             GTFO.API.LevelAPI.OnEnterLevel += HateTheGameFeel;
             GTFO.API.LevelAPI.OnLevelCleanup += CheckSound;
 
+            //We apply settings 7 seconds after the game loads
+            //to avoid the super glossy bug
             Invoke("ApplySettings", 7f);
-            sightsObject = new();
-            texts = new();
         }
+
+        //Make sure to turn the sound back on
+        //
         public static void CheckSound() => Camera.main.GetComponent<AkAudioListener>().enabled = true;
         public static void ApplySettings() {
             int value = (int)EntryPoint.textureSize.Value;
@@ -36,6 +36,7 @@ namespace LowSpecGaming
             ResolutionPatch.canvasScale = CellSettingsManager.SettingsData.Video.Resolution.Value.y / 1080f;
             StartUpSettings.PotatoTexture(ref value);
         }
+
         private static void HateTheGameFeel() {
             if (EntryPoint.gameEnvironment.Value == GameEnvironment.Full) return;
 
@@ -48,6 +49,10 @@ namespace LowSpecGaming
             QualitySettings.shadowDistance = 15;
             QualitySettings.softParticles = false;
         }
+
+        //Not sure to use this or not
+        //But this could give us around 5fps+
+        //
         public static void ClusterRenderingOff() => ClusteredRendering.Current.enabled = false;
 
     }

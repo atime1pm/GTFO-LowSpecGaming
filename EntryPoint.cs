@@ -25,7 +25,7 @@ namespace LowSpecGaming
         {
             e = this;
             var m_Harmony = new Harmony(PluginInfo.PLUGIN_GUID);
-            this.Log.LogInfo("Mushroom Low Spec Gaming is IN~!!");
+            Log.LogInfo("Mushroom Low Spec Gaming is IN~!!");
             
             GetTheSettings();
             
