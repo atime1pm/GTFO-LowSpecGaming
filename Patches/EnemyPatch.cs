@@ -70,18 +70,5 @@ namespace LowSpecGaming.Patches
             __instance.m_networkUpdatesFar.Setup(1, __instance.m_networkUpdatesNear);//1
             return false;
         }
-
-        [HarmonyPrefix]
-        [HarmonyPatch(typeof(ES_Hitreact), nameof(ES_Hitreact.ActivateState))]
-        public static void KillIt(ES_Hitreact __instance)
-        {
-            //I hate this yonked this from Flow's Github... Im sorry
-            //Trying to make enemies die faster....
-            //FIXME: make enemies despawn earlier
-            if (__instance.m_enemyAgent.UpdateMode != NodeUpdateMode.None) return;
-            //Kill Ghost babies....
-            Current.Register(__instance.m_enemyAgent, NodeUpdateMode.Near);
-
-        }
     }
 }
