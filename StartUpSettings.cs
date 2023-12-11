@@ -7,6 +7,8 @@ using Il2CppSystem.Collections;
 using LowSpecGaming.Patches;
 using LowSpecGaming.Misc;
 using GameData;
+using Gear;
+using AssetShards;
 
 namespace LowSpecGaming
 {
@@ -21,6 +23,7 @@ namespace LowSpecGaming
         {
             __instance.gameObject.AddComponent<LowSpecGaming>();
             QualitySettings.masterTextureLimit = 0;
+
         }
 
 
@@ -50,9 +53,16 @@ namespace LowSpecGaming
 
             //This prevents the texture from reloading whenever you change settings
             //
-            value = (int)EntryPoint.textureSize.Value;
-            if (QualitySettings.masterTextureLimit != value)
-                QualitySettings.masterTextureLimit = value;
+            if (EntryPoint.dumpTexture.Value)
+            {
+                QualitySettings.masterTextureLimit = 0;
+            }
+            else
+            {
+                value = (int)EntryPoint.textureSize.Value;
+                if (QualitySettings.masterTextureLimit != value)
+                    QualitySettings.masterTextureLimit = value;
+            }
             
             return false;
         }

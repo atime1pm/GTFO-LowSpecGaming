@@ -1,31 +1,13 @@
-﻿using FluffyUnderware.DevTools.Extensions;
-using HarmonyLib;
-using IRF;
-using LevelGeneration;
+﻿using HarmonyLib;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using Enemies;
-using Dissonance;
-using GTFO;
-using UnityEngine.Rendering;
-using UnityEngine.PostProcessing;
-using System.Runtime.CompilerServices;
 using Il2CppSystem.Collections;
-using System.Text.RegularExpressions;
 using Decals;
-using ShaderValueAnimation;
-using System.Reflection;
 using GameData;
 using Il2CppInterop.Runtime.Injection;
 using MonoMod.RuntimeDetour.HookGen;
 using MonoMod.RuntimeDetour;
-using static UnLogickFactory.FbxTextureExportScheme;
-using CullingSystem;
-using FluffyUnderware.Curvy.Generator;
 using AK;
 
 namespace LowSpecGaming.Misc
@@ -54,22 +36,7 @@ namespace LowSpecGaming.Misc
 
         //Turn off camera audio listener when there's 2
         //Leave only 1 on
-        [HarmonyPostfix]
-        [HarmonyPatch(typeof(FocusStateManager), nameof(FocusStateManager.ChangeState))]
-        public static void CameraAudioPatch()
-        {
-            try
-            {
-                if (Camera.GetAllCamerasCount() > 1)
-                    foreach (var cam in Camera.allCameras)
-                        cam.gameObject.GetComponent<AkAudioListener>().enabled = false;
 
-                Camera.main.gameObject.GetComponent<AkAudioListener>().enabled = true;
-            }
-            catch { EntryPoint.LogIt("Opps...Don't turn off Audio just yet"); }
-
-
-        }
 
         //These 2 stop the spitters from purring
         //

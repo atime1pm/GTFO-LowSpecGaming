@@ -5,6 +5,8 @@ using Il2CppInterop.Runtime.Injection;
 using BepInEx.Configuration;
 using System.IO.Compression;
 using LowSpecGaming.Patches;
+using GameData;
+using UnityEngine;
 
 namespace LowSpecGaming
 {
@@ -18,6 +20,7 @@ namespace LowSpecGaming
         public static ConfigEntry<HateSpitter> hateSpitter;
         public static ConfigEntry<EnemyBehaviourCulling> enemyBehaviourCulling;
         public static ConfigEntry<string> currentFolderPath;
+        public static ConfigEntry<bool> dumpTexture;
         public static ConfigEntry<TextureSize> textureSize;
         public static ConfigEntry<Experimental> redundantComponents;
         public static ConfigFile configFile;
@@ -34,7 +37,10 @@ namespace LowSpecGaming
             Detour_DrawMeshInstancedIndirect.CreateDetour();
             SightPatch.sightPaths = new();
             SightPatch.GetSightFolders();
+            LogIt(Paths.BepInExRootPath);
             m_Harmony.PatchAll();
+
+
         }
         public static EntryPoint e;
         public static void GetTheSettings()
@@ -61,7 +67,8 @@ namespace LowSpecGaming
                 "VERY EXPERIMENTAL, turn off some redundant compenents in game || You might gain 5fps");
             currentFolderPath = configFile.Bind<string>("Setup", nameof(currentFolderPath),"" , 
                 "Manual Path to the current folder that has the plugin if it fails to load normally, This will be removed soon");
-
+            dumpTexture = configFile.Bind<bool>("Setup", nameof(dumpTexture), false,
+                "Dump and extract sight textures in order to load hi res textures even at low res texture settings");
         }
         
 
@@ -138,12 +145,12 @@ namespace LowSpecGaming
 
         public const string PLUGIN_NAME = "LowSpecGaming";
 
-        public const string PLUGIN_VERSION = "0.1.6";
+        public const string PLUGIN_VERSION = "0.2.0";
 
         public const string AUTHOR = "time1pm";
 
         public const string BRANCH = "beta";
 
-        public const string INTERNAL_VERSION = "000232";
+        public const string INTERNAL_VERSION = "000589";
     }
 }
