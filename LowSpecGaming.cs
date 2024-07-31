@@ -24,9 +24,9 @@ namespace LowSpecGaming
 
             //We apply settings 7 seconds after the game loads
             //to avoid the super glossy bug
-            EntryPoint.LogIt("Applying settings in 7s");
-            Invoke("ApplySettings",7f);
-            Invoke("GetFlashLights", 7f);
+            EntryPoint.LogIt("Applying settings in 12s");
+            Invoke("ApplySettings",12f);
+            Invoke("GetFlashLights", 10f);
 
         }
         public void GetFlashLights() {
@@ -92,7 +92,6 @@ namespace LowSpecGaming
         //
         public static void ClusterRenderingOff() 
         {
-            if (EntryPoint.redundantComponents.Value == Experimental.TurnOn) return;
             ClusteredRendering.Current.enabled = false; 
         }
 

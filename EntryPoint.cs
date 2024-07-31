@@ -22,6 +22,7 @@ namespace LowSpecGaming
         public static ConfigEntry<string> currentFolderPath;
         public static ConfigEntry<bool> dumpTexture;
         public static ConfigEntry<TextureSize> textureSize;
+        public static ConfigEntry<OneFlashLight> oneFlashLight;
         public static ConfigEntry<Experimental> redundantComponents;
         public static ConfigFile configFile;
 
@@ -34,11 +35,20 @@ namespace LowSpecGaming
             GetTheSettings();
             
             ClassInjector.RegisterTypeInIl2Cpp<LowSpecGaming>();
+            ClassInjector.RegisterTypeInIl2Cpp<C_CullingClusterPatch>();
             Detour_DrawMeshInstancedIndirect.CreateDetour();
+            EnemyDetectionDataPatch.CreateDetour();
+            //CullingPatch.CreateDetour();
             SightPatch.sightPaths = new();
             SightPatch.GetSightFolders();
+            PropagatePatch.stopper = true;
+            PropagatePatch.stopper2 = true;
             LogIt(Paths.BepInExRootPath);
             m_Harmony.PatchAll();
+            GTFO.API.LevelAPI.OnBuildDone +=  C_CullingClusterPatch.GetAllClusters;
+            GTFO.API.LevelAPI.OnLevelCleanup += C_CullingClusterPatch.CleanAllClusters;
+            GTFO.API.LevelAPI.OnEnterLevel += C_CullingClusterPatch.EnableInLevel; 
+            GTFO.API.LevelAPI.OnEnterLevel += C_CullingClusterPatch.ForceCullAtCurrentPos; 
 
 
         }
@@ -52,7 +62,7 @@ namespace LowSpecGaming
             dynamicResolution = configFile.Bind<DynamicResolution>("Setup", nameof(dynamicResolution), DynamicResolution.Stable, 
                 "Scales down your resolution whenever you move your camera, will improve this in the future");
             treeDrawing = configFile.Bind<TreeDrawing>("Setup", nameof(treeDrawing), TreeDrawing.Draw, 
-                "whether or not to draw IRF like trees and tentacles");
+                "whether or not to draw IRF like trees and tentacles, this will break a lot of stuff during Kraken Fight");
             gameEnvironment = configFile.Bind<GameEnvironment>("Setup", nameof(gameEnvironment), GameEnvironment.Full, 
                 "Reduce fog distance, shadow distance, no more dust particles (requires restart to take effect)");
             BioScanUpdate = configFile.Bind<BioScanBlink>("Setup", nameof(BioScanUpdate), BioScanBlink.DontBlink, 
@@ -63,6 +73,8 @@ namespace LowSpecGaming
                 "Reduce Enemy Update in order to save performance, will improve this feature in the future for better performance");
             textureSize = configFile.Bind<TextureSize>("Setup", nameof(textureSize), TextureSize.Full, 
                 "Texture size, for the potata army");
+            oneFlashLight = configFile.Bind<OneFlashLight>("Setup", nameof(oneFlashLight), OneFlashLight.All,
+                "All for vanilla, use One to load only 1 and also the best flashlight for all guns (DMR)");
             redundantComponents = configFile.Bind<Experimental>("Setup", nameof(redundantComponents), Experimental.TurnOn,
                 "VERY EXPERIMENTAL, turn off some redundant compenents in game || You might gain 5fps");
             currentFolderPath = configFile.Bind<string>("Setup", nameof(currentFolderPath),"" , 
@@ -135,6 +147,11 @@ namespace LowSpecGaming
         POTATA = 9,
         YouLiveLikeThis = 10,
     }
+    public enum OneFlashLight
+    { 
+        All = 0,
+        One = 1,
+    }
     //Plugin Credits
     //It's just me lol
     //Special thanks to Flow though for helping me with this mod
@@ -145,12 +162,12 @@ namespace LowSpecGaming
 
         public const string PLUGIN_NAME = "LowSpecGaming";
 
-        public const string PLUGIN_VERSION = "0.2.0";
+        public const string PLUGIN_VERSION = "0.2.6";
 
         public const string AUTHOR = "time1pm";
 
         public const string BRANCH = "beta";
 
-        public const string INTERNAL_VERSION = "000589";
+        public const string INTERNAL_VERSION = "000599";
     }
 }

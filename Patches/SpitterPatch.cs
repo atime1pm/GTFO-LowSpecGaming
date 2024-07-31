@@ -32,11 +32,7 @@ namespace LowSpecGaming.Misc
             mat.GetTexture("_MainTex_B").mipMapBias = 10;
             GameObject.Destroy(__instance.gameObject.GetComponentInChildren<Decal>());
         }
-
-
-        //Turn off camera audio listener when there's 2
-        //Leave only 1 on
-
+            
 
         //These 2 stop the spitters from purring
         //

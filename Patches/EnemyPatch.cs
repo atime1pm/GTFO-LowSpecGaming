@@ -27,18 +27,18 @@ namespace LowSpecGaming.Patches
             //Not how many frames the enemies can update
             //
             __instance.m_locomotionUpdatesClose = new();
-            __instance.m_locomotionUpdatesClose.Setup(12);//20
+            __instance.m_locomotionUpdatesClose.Setup(18);//20
             __instance.m_locomotionUpdatesNear = new();
-            __instance.m_locomotionUpdatesNear.Setup(5, __instance.m_locomotionUpdatesClose);//10
+            __instance.m_locomotionUpdatesNear.Setup(9, __instance.m_locomotionUpdatesClose);//10
             __instance.m_locomotionUpdatesFar = new();
-            __instance.m_locomotionUpdatesFar.Setup(5, __instance.m_locomotionUpdatesNear);//5 -- lowering this too much causes problem
+            __instance.m_locomotionUpdatesFar.Setup(4, __instance.m_locomotionUpdatesNear);//5 -- lowering this too much causes problem
 
             //Should be the enemy fixed updates
             //60 per sec?
             __instance.m_fixedLocomotionUpdatesClose = new();
             __instance.m_fixedLocomotionUpdatesClose.Setup(3);//5
             __instance.m_fixedLocomotionUpdatesNear = new();
-            __instance.m_fixedLocomotionUpdatesNear.Setup(1, __instance.m_fixedLocomotionUpdatesClose);//2
+            __instance.m_fixedLocomotionUpdatesNear.Setup(2, __instance.m_fixedLocomotionUpdatesClose);//2
             __instance.m_fixedLocomotionUpdatesFar = new();
             __instance.m_fixedLocomotionUpdatesFar.Setup(1, __instance.m_fixedLocomotionUpdatesNear);//1
 

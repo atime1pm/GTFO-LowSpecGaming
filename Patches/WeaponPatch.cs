@@ -1,6 +1,9 @@
 ﻿using System;
 using BepInEx;
+using GameData;
 using HarmonyLib;
+using Il2CppSystem.Data;
+using Il2CppSystem.Xml.Serialization;
 using UnityEngine;
 
 namespace LowSpecGaming.Misc

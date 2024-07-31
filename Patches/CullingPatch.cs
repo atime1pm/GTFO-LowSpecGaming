@@ -1,6 +1,8 @@
-﻿using CullingSystem;
+﻿using BepInEx.Unity.IL2CPP.Hook;
+using CullingSystem;
 using Enemies;
 using HarmonyLib;
+using Il2CppInterop.Runtime.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,34 +15,58 @@ namespace LowSpecGaming.Patches
     [HarmonyPatch]
     internal class CullingPatch
     {
-        //Taking off Null check and use foreach loop instead of a for loop for better performance
-        //maybe....
-        [HarmonyPrefix]
-        [HarmonyPatch(typeof(C_CullingCluster), nameof(C_CullingCluster.Show))]
-        public static bool BuildItDOWN(C_CullingCluster __instance)
-        {
-            if (__instance.IsShown) return false;
+        private delegate void ShowDelegate(IntPtr __instance);
+        private delegate void HideDelegate(IntPtr __instance);
 
-            __instance.IsShown = true;
+        private static ShowDelegate _OriginalShow;
+        private static INativeDetour _DetourShow;
+        private static HideDelegate _OriginalHide;
+        private static INativeDetour _DetourHide;
+
+        public static void CreateDetour()
+        {
+            Detour.TryCreate(new DetourDescription()
+            {
+                Type = typeof(C_CullingCluster),
+                MethodName = nameof(C_CullingCluster.Show),
+                ReturnType = typeof(void),
+                ArgTypes = new Type[] { },
+                IsGeneric = false
+            }, Detour_Show, out _OriginalShow, out _DetourShow);
+            Detour.TryCreate(new DetourDescription()
+            {
+                Type = typeof(C_CullingCluster),
+                MethodName = nameof(C_CullingCluster.Hide),
+                ReturnType = typeof(void),
+                ArgTypes = new Type[] { },
+                IsGeneric = false
+            }, Detour_Hide, out _OriginalHide, out _DetourHide);
+        }
+        public static void Detour_Show(IntPtr __instance)
+        {
+            C_CullingCluster c = new(__instance);
+            if (c.IsShown) return;
+
+            c.IsShown = true;
             
-            foreach (Renderer r in __instance.Renderers)
+            foreach (Renderer r in c.Renderers)
                 r.enabled = true;
             
-            C_CullingManager.Register((C_Cullable)__instance);
-            return false;
+            C_CullingManager.Register(c);
+            return;
         }
-        [HarmonyPrefix]
-        [HarmonyPatch(typeof(C_CullingCluster), nameof(C_CullingCluster.Hide))]
-        public static bool BuildItUP(C_CullingCluster __instance)
+        public static void Detour_Hide(IntPtr __instance)
         {
-            if (!__instance.IsShown) return false;
+            C_CullingCluster c = new(__instance);
 
-            __instance.IsShown = false;
+            if (!c.IsShown) return;
+
+            c.IsShown = false;
             
-            foreach (Renderer r in __instance.Renderers)
+            foreach (Renderer r in c.Renderers)
                 r.enabled = false;
             
-            return false;
+            return;
         }
     }
 }

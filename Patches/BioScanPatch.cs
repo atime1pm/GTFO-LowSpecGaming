@@ -23,9 +23,6 @@ namespace LowSpecGaming.Misc
             __instance.CurvySpline.UpdateIn = (FluffyUnderware.Curvy.CurvyUpdateMethod)(-1);
             __instance.CurvyExtrusion.Optimize = true;
         }
-        //No Blink Please
-        [HarmonyPrefix][HarmonyPatch(typeof(CP_Bioscan_Graphics), nameof(CP_Bioscan_Graphics.Update))]
-        static bool Bioscan_Graphics_Update() => update;
 
         [HarmonyPostfix]
         [HarmonyPatch(typeof(CP_Bioscan_Graphics), nameof(CP_Bioscan_Graphics.Setup))]

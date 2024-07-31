@@ -4,7 +4,7 @@
     <!--
 		Use the following property to set your preferred r2modman profile
 		-->
-    <Profile>Default</Profile>
+    <Profile>Vox</Profile>
 
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -12,7 +12,7 @@
     <DebugType>None</DebugType>
     <AssemblyName>$(SolutionName)</AssemblyName>
     <RootNamespace>$(SolutionName)</RootNamespace>
-    <BepInEx>C:\Users\anhth\AppData\Roaming\r2modmanPlus-local\GTFO\profiles\Vox\BepInEx</BepInEx>
+    <BepInEx>$(AppData)\r2modmanPlus-local\GTFO\profiles\$(Profile)\BepInEx</BepInEx>
     <BuildDirectory>$(BepInEx)\plugins\$(SolutionName)\</BuildDirectory>
     <OutputPath>$(BuildDirectory)</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
@@ -27,9 +27,261 @@
     <Reference Include="$(BepInEx)\core\BepInEx.Unity.IL2CPP.dll" Private="false" />
     <Reference Include="$(BepInEx)\core\Il2CppInterop.Common.dll" Private="false" />
     <Reference Include="$(BepInEx)\core\Il2CppInterop.Runtime.dll" Private="false" />
+
     <Reference Include="$(BepInEx)\interop\*.dll" Private="false" />
+    <None Remove="Resources\FlashLights\FlashlightCookieSquareLantern.png" />
+    <None Remove="Resources\FlashLights\FlashlightRegularCookie_01.png" />
+    <None Remove="Resources\FlashLights\FlashlightRegularCookie_02.png" />
+    <None Remove="Resources\FlashLights\FlashlightRegularCookie_03.png" />
+    <None Remove="Resources\FlashLights\FlashlightRegularCookie_04.png" />
+    <None Remove="Resources\FlashLights\FlashlightRegularCookie_05 - Copy.png" />
+    <None Remove="Resources\FlashLights\FlashlightRegularCookie_05.png" />
+    <None Remove="Resources\FlashLights\FlashlightRegularCookie_06.png" />
+    <None Remove="Resources\GearItem_Accrat Golok DA\_MainTex.png" />
+    <None Remove="Resources\GearItem_Accrat Golok DA\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Accrat Golok DA\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Accrat Golok DA\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_Accrat ND6\_MainTex.png" />
+    <None Remove="Resources\GearItem_Accrat ND6\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Accrat ND6\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Accrat ND6\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_Accrat STB\_MainTex.png" />
+    <None Remove="Resources\GearItem_Accrat STB\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Accrat STB\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Accrat STB\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_Bataldo 3RB\_MainTex.png" />
+    <None Remove="Resources\GearItem_Bataldo 3RB\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Bataldo 3RB\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Bataldo 3RB\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_Bataldo Custom K330\_MainTex.png" />
+    <None Remove="Resources\GearItem_Bataldo J 300\_MainTex.png" />
+    <None Remove="Resources\GearItem_Bataldo J 300\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Bataldo J 300\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Bataldo J 300\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_Buckland AF6\_MainTex.png" />
+    <None Remove="Resources\GearItem_Buckland AF6\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Buckland AF6\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Buckland AF6\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_Buckland s870\_MainTex.png" />
+    <None Remove="Resources\GearItem_Buckland s870\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Buckland s870\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Buckland s870\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_Buckland XDist2\_MainTex.png" />
+    <None Remove="Resources\GearItem_Buckland XDist2\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Buckland XDist2\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Buckland XDist2\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_Drekker CLR\_MainTex.png" />
+    <None Remove="Resources\GearItem_Drekker CLR\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Drekker CLR\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Drekker CLR\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_Drekker DEL P1\_MainTex.png" />
+    <None Remove="Resources\GearItem_Drekker DEL P1\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Drekker DEL P1\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Drekker Pres MOD 556\_MainTex.png" />
+    <None Remove="Resources\GearItem_Drekker Pres MOD 556\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Drekker Pres MOD 556\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Drekker Pres MOD 556\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_Hanaway PSB\_MainTex.png" />
+    <None Remove="Resources\GearItem_Hanaway PSB\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Hanaway PSB\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Hanaway PSB\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_Köning PR 11\_MainTex.png" />
+    <None Remove="Resources\GearItem_Köning PR 11\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Köning PR 11\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Köning PR 11\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_Malatack CH 4\_MainTex.png" />
+    <None Remove="Resources\GearItem_Malatack CH 4\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Malatack CH 4\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Malatack CH 4\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_Malatack HXC\_MainTex.png" />
+    <None Remove="Resources\GearItem_Malatack HXC\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Malatack HXC\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Malatack HXC\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_Malatack LX\_MainTex.png" />
+    <None Remove="Resources\GearItem_Malatack LX\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Malatack LX\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Malatack LX\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_Mastaba R66\_MainTex.png" />
+    <None Remove="Resources\GearItem_Mastaba R66\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Mastaba R66\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Mastaba R66\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_Omneco exp1\_MainTex.png" />
+    <None Remove="Resources\GearItem_Omneco exp1\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Omneco exp1\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Omneco exp1\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_Omneco LRG\_MainTex.png" />
+    <None Remove="Resources\GearItem_Omneco LRG\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Omneco LRG\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Omneco LRG\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_Raptus Steigro\_MainTex.png" />
+    <None Remove="Resources\GearItem_Raptus Steigro\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Raptus Steigro\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Raptus Steigro\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_Raptus Treffen 2\_MainTex.png" />
+    <None Remove="Resources\GearItem_Raptus Treffen 2\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Raptus Treffen 2\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Raptus Treffen 2\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_Shelling Arid 5\_MainTex.png" />
+    <None Remove="Resources\GearItem_Shelling Arid 5\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Shelling Arid 5\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Shelling Arid 5\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_Shelling Nano\_MainTex.png" />
+    <None Remove="Resources\GearItem_Shelling Nano\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Shelling Nano\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Shelling Nano\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_Shelling S49\_MainTex.png" />
+    <None Remove="Resources\GearItem_Shelling S49\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Shelling S49\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Shelling S49\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_TechMan Arbalist V\_MainTex.png" />
+    <None Remove="Resources\GearItem_TechMan Arbalist V\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_TechMan Arbalist V\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_TechMan Arbalist V\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_TechMan Klust 6\_MainTex.png" />
+    <None Remove="Resources\GearItem_TechMan Klust 6\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_TechMan Klust 6\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_TechMan Klust 6\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_TechMan Veruta XII\_MainTex.png" />
+    <None Remove="Resources\GearItem_TechMan Veruta XII\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_TechMan Veruta XII\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_TechMan Veruta XII\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_Van Auken CAB F4\_MainTex.png" />
+    <None Remove="Resources\GearItem_Van Auken CAB F4\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Van Auken CAB F4\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Van Auken CAB F4\_ReticuleC.png" />
+    <None Remove="Resources\GearItem_Van Auken LTC5\_MainTex.png" />
+    <None Remove="Resources\GearItem_Van Auken LTC5\_ReticuleA.png" />
+    <None Remove="Resources\GearItem_Van Auken LTC5\_ReticuleB.png" />
+    <None Remove="Resources\GearItem_Van Auken LTC5\_ReticuleC.png" />
     <Reference Include="$(BepInEx)\plugins\GTFO-API.dll" Private="false" />
     <Reference Include="$(BepInEx)\core\MonoMod.RuntimeDetour.dll" Private="false" />
     <Reference Remove="$(BepInEx)\interop\netstandard.dll" />
+    <EmbeddedResource Include="Resources\FlashLights\FlashlightCookieSquareLantern.png" />
+    <EmbeddedResource Include="Resources\FlashLights\FlashlightRegularCookie_01.png" />
+    <EmbeddedResource Include="Resources\FlashLights\FlashlightRegularCookie_02.png" />
+    <EmbeddedResource Include="Resources\FlashLights\FlashlightRegularCookie_03.png" />
+    <EmbeddedResource Include="Resources\FlashLights\FlashlightRegularCookie_04.png" />
+    <EmbeddedResource Include="Resources\FlashLights\FlashlightRegularCookie_05.png" />
+    <EmbeddedResource Include="Resources\FlashLights\FlashlightRegularCookie_06.png" />
+    <EmbeddedResource Include="Resources\GearItem_Accrat Golok DA\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Accrat Golok DA\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Accrat Golok DA\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Accrat Golok DA\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_Accrat ND6\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Accrat ND6\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Accrat ND6\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Accrat ND6\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_Accrat STB\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Accrat STB\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Accrat STB\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Accrat STB\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_Bataldo 3RB\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Bataldo 3RB\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Bataldo 3RB\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Bataldo 3RB\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_Bataldo Custom K330\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Bataldo J 300\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Bataldo J 300\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Bataldo J 300\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Bataldo J 300\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_Buckland AF6\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Buckland AF6\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Buckland AF6\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Buckland AF6\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_Buckland s870\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Buckland s870\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Buckland s870\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Buckland s870\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_Buckland XDist2\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Buckland XDist2\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Buckland XDist2\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Buckland XDist2\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_Drekker CLR\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Drekker CLR\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Drekker CLR\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Drekker CLR\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_Drekker DEL P1\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Drekker DEL P1\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Drekker DEL P1\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Drekker Pres MOD 556\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Drekker Pres MOD 556\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Drekker Pres MOD 556\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Drekker Pres MOD 556\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_Hanaway PSB\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Hanaway PSB\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Hanaway PSB\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Hanaway PSB\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_Köning PR 11\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Köning PR 11\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Köning PR 11\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Köning PR 11\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_Malatack CH 4\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Malatack CH 4\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Malatack CH 4\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Malatack CH 4\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_Malatack HXC\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Malatack HXC\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Malatack HXC\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Malatack HXC\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_Malatack LX\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Malatack LX\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Malatack LX\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Malatack LX\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_Mastaba R66\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Mastaba R66\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Mastaba R66\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Mastaba R66\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_Omneco exp1\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Omneco exp1\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Omneco exp1\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Omneco exp1\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_Omneco LRG\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Omneco LRG\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Omneco LRG\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Omneco LRG\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_Raptus Steigro\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Raptus Steigro\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Raptus Steigro\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Raptus Steigro\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_Raptus Treffen 2\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Raptus Treffen 2\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Raptus Treffen 2\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Raptus Treffen 2\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_Shelling Arid 5\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Shelling Arid 5\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Shelling Arid 5\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Shelling Arid 5\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_Shelling Nano\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Shelling Nano\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Shelling Nano\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Shelling Nano\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_Shelling S49\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Shelling S49\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Shelling S49\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Shelling S49\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_TechMan Arbalist V\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_TechMan Arbalist V\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_TechMan Arbalist V\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_TechMan Arbalist V\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_TechMan Klust 6\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_TechMan Klust 6\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_TechMan Klust 6\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_TechMan Klust 6\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_TechMan Veruta XII\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_TechMan Veruta XII\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_TechMan Veruta XII\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_TechMan Veruta XII\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_TR22 Hanaway\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_TR22 Hanaway\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_TR22 Hanaway\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_TR22 Hanaway\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Van Auken CAB F4\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Van Auken CAB F4\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Van Auken CAB F4\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Van Auken CAB F4\_ReticuleC.png" />
+    <EmbeddedResource Include="Resources\GearItem_Van Auken LTC5\_MainTex.png" />
+    <EmbeddedResource Include="Resources\GearItem_Van Auken LTC5\_ReticuleA.png" />
+    <EmbeddedResource Include="Resources\GearItem_Van Auken LTC5\_ReticuleB.png" />
+    <EmbeddedResource Include="Resources\GearItem_Van Auken LTC5\_ReticuleC.png" />
   </ItemGroup>
 </Project>

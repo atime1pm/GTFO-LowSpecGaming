@@ -47,9 +47,9 @@ namespace LowSpecGaming
 
             SpitterPatch.hate = EntryPoint.hateSpitter.Value == HateSpitter.HATE;
             BioScanPatch.update = EntryPoint.BioScanUpdate.Value == BioScanBlink.Blink;
-            Detour_DrawMeshInstancedIndirect.draw = EntryPoint.treeDrawing.Value == TreeDrawing.Draw;
+            IRFPatch.draw = EntryPoint.treeDrawing.Value == TreeDrawing.Draw;
 
-            RedundantMethods.experimentalOn = EntryPoint.redundantComponents.Value == Experimental.TurnOn;
+            //RedundantMethods.experimentalOn = EntryPoint.redundantComponents.Value == Experimental.TurnOn;
 
             //This prevents the texture from reloading whenever you change settings
             //

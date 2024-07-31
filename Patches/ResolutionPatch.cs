@@ -21,6 +21,7 @@ namespace LowSpecGaming.Patches
 
         private static float scale = 0.8f; // camera scale
         private static float offset = 0.1f;// this is (1 - camera scale) / 2
+        private static Rect screenRec = new (0f,0f,1f,1f);// this is (1 - camera scale) / 2
 
         //Mouse Movement Detection
         //I dont want to do any calculation here to save 0.001% performance
@@ -28,9 +29,9 @@ namespace LowSpecGaming.Patches
         [HarmonyPatch(typeof(LookCameraController), nameof(LookCameraController.MouseLookUpdate))]
         public static void Mouse(ref float axisHor, ref float axisVer)
         {
-            float mouse = Mathf.Abs(axisHor + axisVer);
+            float mouse = Mathf.Abs(axisHor) + Mathf.Abs(axisVer);
 
-            if (mouse < 1f)
+            if (mouse < 0.5f)
             {
                 scale = 1f;
                 offset = 0f;
@@ -52,11 +53,11 @@ namespace LowSpecGaming.Patches
         [HarmonyPostfix][HarmonyPatch(typeof(FPSCamera), nameof(FPSCamera.Update))]
         public static void ScaleDown(FPSCamera __instance)
         {
-            //I hate null checking but we do it anyways...
             if (!dynamic) return;
 
             markerLayer.CanvasScale = canvasScale * scale;
             __instance.m_camera.rect = new Rect(offset, offset, scale, scale);
+            //__instance.m_camera.rect.Set(offset, offset, scale, scale);
         }
         [HarmonyPostfix][HarmonyPatch(typeof(FPSCamera), nameof(FPSCamera.OnPostRender))]
         public static void ScaleUp(FPSCamera __instance)
