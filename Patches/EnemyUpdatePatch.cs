@@ -26,15 +26,10 @@ namespace LowSpecGaming.Patches
             __instance.m_locomotionUpdatesClose.Update();
             __instance.m_locomotionUpdatesNear.Update();
             __instance.m_locomotionUpdatesFar.Update();
-
             __instance.m_fixedLocomotionUpdatesClose.Update();
             __instance.m_fixedLocomotionUpdatesNear.Update();
             __instance.m_fixedLocomotionUpdatesFar.Update();
             return false;
-        }
-        public static void Test() 
-        {
-            EntryPoint.LogIt("ok");
         }
     }
 }

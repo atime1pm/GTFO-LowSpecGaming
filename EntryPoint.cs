@@ -7,6 +7,7 @@ using System.IO.Compression;
 using LowSpecGaming.Patches;
 using GameData;
 using UnityEngine;
+using Enemies;
 
 namespace LowSpecGaming
 {
@@ -36,20 +37,17 @@ namespace LowSpecGaming
             
             ClassInjector.RegisterTypeInIl2Cpp<LowSpecGaming>();
             ClassInjector.RegisterTypeInIl2Cpp<C_CullingClusterPatch>();
-            Detour_DrawMeshInstancedIndirect.CreateDetour();
-            EnemyDetectionDataPatch.CreateDetour();
-            //CullingPatch.CreateDetour();
             SightPatch.sightPaths = new();
             SightPatch.GetSightFolders();
-            PropagatePatch.stopper = true;
-            PropagatePatch.stopper2 = true;
             LogIt(Paths.BepInExRootPath);
             m_Harmony.PatchAll();
+            //Detour_DrawMeshInstancedIndirect.CreateDetour();
+
+
             GTFO.API.LevelAPI.OnBuildDone +=  C_CullingClusterPatch.GetAllClusters;
             GTFO.API.LevelAPI.OnLevelCleanup += C_CullingClusterPatch.CleanAllClusters;
-            GTFO.API.LevelAPI.OnEnterLevel += C_CullingClusterPatch.EnableInLevel; 
+            GTFO.API.LevelAPI.OnBuildDone += C_CullingClusterPatch.EnableInLevel; 
             GTFO.API.LevelAPI.OnEnterLevel += C_CullingClusterPatch.ForceCullAtCurrentPos; 
-
 
         }
         public static EntryPoint e;
@@ -162,7 +160,7 @@ namespace LowSpecGaming
 
         public const string PLUGIN_NAME = "LowSpecGaming";
 
-        public const string PLUGIN_VERSION = "0.2.6";
+        public const string PLUGIN_VERSION = "0.2.8";
 
         public const string AUTHOR = "time1pm";
 

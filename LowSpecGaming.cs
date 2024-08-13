@@ -19,15 +19,14 @@ namespace LowSpecGaming
         public void Start() {
             EntryPoint.GetTheSettings();
             lightTextures = new();
+
             GTFO.API.LevelAPI.OnEnterLevel += HateTheGameFeel;
             GTFO.API.LevelAPI.OnEnterLevel += ClusterRenderingOff;
-
             //We apply settings 7 seconds after the game loads
             //to avoid the super glossy bug
             EntryPoint.LogIt("Applying settings in 12s");
             Invoke("ApplySettings",12f);
             Invoke("GetFlashLights", 10f);
-
         }
         public void GetFlashLights() {
             if (!EntryPoint.dumpTexture.Value) return;

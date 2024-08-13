@@ -16,14 +16,6 @@ namespace LowSpecGaming.Patches
     [HarmonyPatch]
     internal class MathPatch
     {
-        public static bool stopper1 = true;
-        public static bool stopper2 = true;
-        public static bool stopper3 = true;
-        public static bool stopper4 = true;
-        public static bool stopper5 = true;
-        public static bool stopper6 = true;
-
-
         [HarmonyPrefix]
         [HarmonyPatch(typeof(MathUtil), nameof(MathUtil.RotateVector2))]
         public static bool RotateVector2Patch(ref Vector2 v, ref float angleDeg,ref Vector2 __result )
@@ -42,9 +34,5 @@ namespace LowSpecGaming.Patches
             __instance.m_material.SetFloat(SentryScannerPlane._HasTarget, __instance.m_fastDelta);
             return false;
         }
-
-        /*
-
-        */
     }
 }

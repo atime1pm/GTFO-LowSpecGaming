@@ -18,15 +18,15 @@ namespace LowSpecGaming.Patches
         [HarmonyPatch(typeof(InstancedRenderFeature), nameof(InstancedRenderFeature.OnEnable))]
         public static void InstancedRenderFeaturePatch(InstancedRenderFeature __instance)
         {
-            if (!__instance.m_descriptor.name.ToLower().Contains("tentacle") && draw)
+            try
             {
-                try 
+                if (!__instance.m_descriptor.name.ToLower().Contains("tentacle") && draw)
                 {
                     __instance.enabled = false;
                     GameObject.Destroy(__instance.gameObject);
                 }
-                catch{ }
             }
+            catch { }
         }
     }
 }
