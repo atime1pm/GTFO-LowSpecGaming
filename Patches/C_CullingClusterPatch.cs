@@ -79,6 +79,18 @@ namespace LowSpecGaming.Patches
                     AddRendererToCluster(m.CullBucket.Renderers);
             }
 
+            int count = 0;
+            foreach (var shadow in UnityEngine.Object.FindObjectsOfType<MeshRenderer>()) 
+            {
+                var name = shadow.name.ToLower();
+                if (name.Contains("shadow") || name.Contains("cube"))
+                { 
+                    shadow.enabled = false;
+                    shadow.gameObject.SetActive(false);
+                    count++;
+                }
+            }
+            EntryPoint.LogIt("Shadows: " + count);
             foreach (var item in UnityEngine.Object.FindObjectsOfType<ItemCuller>())
             { 
                 item.Show();

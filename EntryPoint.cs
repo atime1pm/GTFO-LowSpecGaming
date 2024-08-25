@@ -41,7 +41,6 @@ namespace LowSpecGaming
             SightPatch.GetSightFolders();
             LogIt(Paths.BepInExRootPath);
             m_Harmony.PatchAll();
-            //Detour_DrawMeshInstancedIndirect.CreateDetour();
 
 
             GTFO.API.LevelAPI.OnBuildDone +=  C_CullingClusterPatch.GetAllClusters;

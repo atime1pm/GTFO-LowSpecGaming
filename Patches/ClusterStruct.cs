@@ -60,6 +60,7 @@ namespace LowSpecGaming.Patches
                 }
                 catch (Exception ex)
                 {
+                    EntryPoint.LogIt(ex);
                     dupRenlist.AddRange(duplicateRenderers[dup]);
                 }
             }

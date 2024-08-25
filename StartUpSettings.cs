@@ -23,7 +23,6 @@ namespace LowSpecGaming
         {
             __instance.gameObject.AddComponent<LowSpecGaming>();
             QualitySettings.masterTextureLimit = 0;
-
         }
 
 
