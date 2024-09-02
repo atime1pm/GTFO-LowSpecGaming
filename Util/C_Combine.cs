@@ -10,6 +10,10 @@ namespace LowSpecGaming.Util
 {
     public static class C_Combine
     {
+        public static List<Renderer> CombineMeshes(Renderer[] renderersToCombine)
+        {
+            return CombineMeshes(renderersToCombine.ToList());
+        }
         public static List<Renderer> CombineMeshes(List<Renderer> renderersToCombine)
         {
             if (renderersToCombine.Count < 2) return renderersToCombine;

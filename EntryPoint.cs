@@ -36,7 +36,6 @@ namespace LowSpecGaming
             GetTheSettings();
             
             ClassInjector.RegisterTypeInIl2Cpp<LowSpecGaming>();
-            ClassInjector.RegisterTypeInIl2Cpp<C_CullingClusterPatch>();
             SightPatch.sightPaths = new();
             SightPatch.GetSightFolders();
             LogIt(Paths.BepInExRootPath);
@@ -45,8 +44,6 @@ namespace LowSpecGaming
 
             GTFO.API.LevelAPI.OnBuildDone +=  C_CullingClusterPatch.GetAllClusters;
             GTFO.API.LevelAPI.OnLevelCleanup += C_CullingClusterPatch.CleanAllClusters;
-            GTFO.API.LevelAPI.OnBuildDone += C_CullingClusterPatch.EnableInLevel; 
-            GTFO.API.LevelAPI.OnEnterLevel += C_CullingClusterPatch.ForceCullAtCurrentPos; 
 
         }
         public static EntryPoint e;
@@ -108,7 +105,8 @@ namespace LowSpecGaming
     public enum TreeDrawing
     {
         Draw = 0,
-        DontDraw = 1,
+        HalfDraw = 1,
+        DontDraw = 2,
     }
     public enum DynamicResolution
     {
@@ -159,7 +157,7 @@ namespace LowSpecGaming
 
         public const string PLUGIN_NAME = "LowSpecGaming";
 
-        public const string PLUGIN_VERSION = "0.2.8";
+        public const string PLUGIN_VERSION = "0.3.0";
 
         public const string AUTHOR = "time1pm";
 

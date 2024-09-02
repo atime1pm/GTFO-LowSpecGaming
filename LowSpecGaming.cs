@@ -70,7 +70,6 @@ namespace LowSpecGaming
         public void ApplySettings() {
             int value = 10;
             EntryPoint.LogIt("Apply Settings");
-            AssetPatch.GetThePrefabs();
             StartUpSettings.PotatoTexture(ref value);
         }
 

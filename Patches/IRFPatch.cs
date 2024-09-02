@@ -18,6 +18,7 @@ namespace LowSpecGaming.Patches
         [HarmonyPatch(typeof(InstancedRenderFeature), nameof(InstancedRenderFeature.OnEnable))]
         public static void InstancedRenderFeaturePatch(InstancedRenderFeature __instance)
         {
+            if (draw) return;
             try
             {
                 if (!__instance.m_descriptor.name.ToLower().Contains("tentacle") && draw)

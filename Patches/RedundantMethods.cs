@@ -20,6 +20,8 @@ namespace LowSpecGaming.Patches
     [HarmonyPatch]
     internal class RedundantMethods
     {
+        public static bool draw;
+
         [HarmonyTranspiler]
         [HarmonyPatch(typeof(EnemyUpdateManager), "GamestateUpdate")]
         [HarmonyPatch(typeof(ClusteredRendering), nameof(ClusteredRendering.Update))]
@@ -44,6 +46,9 @@ namespace LowSpecGaming.Patches
         public static IEnumerable<CodeInstruction> DisableTranspiler2(IEnumerable<CodeInstruction> instructions)
         {
             var code = new List<CodeInstruction>(instructions);
+
+            if (draw) return code.AsEnumerable();
+
             code.Clear();
             return code.AsEnumerable();
         }

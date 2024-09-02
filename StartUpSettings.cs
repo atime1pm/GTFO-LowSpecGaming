@@ -47,6 +47,7 @@ namespace LowSpecGaming
             SpitterPatch.hate = EntryPoint.hateSpitter.Value == HateSpitter.HATE;
             BioScanPatch.update = EntryPoint.BioScanUpdate.Value == BioScanBlink.Blink;
             IRFPatch.draw = EntryPoint.treeDrawing.Value == TreeDrawing.Draw;
+            RedundantMethods.draw = EntryPoint.treeDrawing.Value == TreeDrawing.DontDraw;
 
             //RedundantMethods.experimentalOn = EntryPoint.redundantComponents.Value == Experimental.TurnOn;
 
